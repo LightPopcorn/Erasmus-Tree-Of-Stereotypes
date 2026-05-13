@@ -58,9 +58,11 @@ function App() {
     const { data } = await supabase
       .from("messages")
       .select("*")
-      .order("id", { ascending: false })
+      .order("id", "random()")
 
-    setMessages(data || [])
+    const loaded = data || []
+    setMessages(loaded)
+    setTrunkCount(Math.max(3, loaded.length * 2))
   }
 
   async function addMessage() {
@@ -119,7 +121,7 @@ function App() {
 
     // if messages go below trunk → add more trunk
     if (messagesBottom > trunkBottom) {
-      setTrunkCount((prev) => prev + 1)
+      setTrunkCount((prev) => prev + 2)
     }
   }
 
